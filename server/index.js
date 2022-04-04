@@ -26,9 +26,15 @@ app.post('/accounts', (req, res) => {
     }
 });
 
-app.get('/balance', (req, res) => {
-    getAccountData("지갑 주소");
-    res.send({"message" : "good"});
+app.post('/balance', (req, res) => {
+    // console.log(req.body);
+    const eth = getAccountData(req.body.account);
+    eth.then(ele => {
+        res.json(ele);
+    }).catch((err) => {
+        console.log(err);
+        res.json({"message" : "ERROR"});
+    })
 });
 
 app.listen(port, () => {
