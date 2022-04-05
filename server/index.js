@@ -4,6 +4,7 @@ const port = 8080;
 const cors = require('cors');
 const getTxByAccount = require('./infuraAPI/getTxByAccount').getTxByAccount;
 const getAccountData = require('./infuraAPI/getAccountData').getAccountData;
+const getContractData = require('./infuraAPI/getContractData').getContractData;
 
 app.use(cors());
 app.use(express.json()); // json-body-parser
@@ -35,6 +36,18 @@ app.post('/balance', (req, res) => {
         console.log(err);
         res.json({"message" : "ERROR"});
     })
+});
+
+app.post('/contract', (req, res) => {
+    let = {abi, account} = req.body;
+    abi = JSON.parse(req.body.abi);
+
+    const data = getContractData(abi, account);
+    if(data.address){
+        res.json(data);
+    } else {
+        res.json({"message" : "ERROR"});
+    }
 });
 
 app.listen(port, () => {
